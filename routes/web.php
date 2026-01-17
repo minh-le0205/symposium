@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TalkController;
 use App\Models\User;
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('talks/{talk}', [TalkController::class, 'destroy'])->name('talks.destroy');
     Route::get('talks-edit/{talk}', [TalkController::class, 'edit'])->name('talks.edit');
     Route::put('talks/{talk}', [TalkController::class, 'update'])->name('talks.update')->can('update', 'talk');
+
+    // Conference routes
+    Route::get('conferences', [ConferenceController::class, 'index'])->name('conferences.index');
 });
 
 require __DIR__ . '/auth.php';
