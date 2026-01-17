@@ -21,6 +21,7 @@
                                             <a
                                                 href="{{ $conference->url }}"
                                                 class="text-lg font-medium text-black hover:underline"
+                                                target="_blank"
                                             >
                                                 {{ $conference->title }}
                                             </a>
