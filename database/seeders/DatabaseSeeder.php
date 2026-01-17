@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Conference;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Talk;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 'name' => 'Minh Le',
                 'email' => 'minh_le01@yopmail.com',
+                'password' => Hash::make('password'),
             ]);
 
         Conference::factory()->count(5)->create();
