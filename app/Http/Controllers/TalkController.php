@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TalkType;
 use App\Models\Talk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class TalkController extends Controller
 {
@@ -34,7 +36,7 @@ class TalkController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'length' => 'nullable',
-            'type' => 'required',
+            'type' => ['required', Rule::enum(TalkType::class)],
             'abstract' => 'nullable',
             'organizer_notes' => 'nullable',
         ]);
@@ -58,7 +60,7 @@ class TalkController extends Controller
      */
     public function edit(Talk $talk)
     {
-        //
+        return view('talks.edit', ['talk' => $talk]);
     }
 
     /**
@@ -66,7 +68,20 @@ class TalkController extends Controller
      */
     public function update(Request $request, Talk $talk)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'length' => 'nullable',
+            'type' => ['required', Rule::enum(TalkType::class)],
+            'abstract' => 'nullable',
+            'organizer_notes' => 'nullable',
+        ]);
+
+        if (Auth::user()->id !== $talk->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+        $talk->update($validated);
+
+        return redirect()->route('talks.show', $talk)->with('success', 'Talk updated successfully.');
     }
 
     /**
@@ -74,6 +89,12 @@ class TalkController extends Controller
      */
     public function destroy(Talk $talk)
     {
-        //
+        if (Auth::user()->id !== $talk->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $talk->delete();
+
+        return redirect()->route('talks.index')->with('success', 'Talk deleted successfully.');
     }
 }
