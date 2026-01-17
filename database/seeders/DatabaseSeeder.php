@@ -23,6 +23,16 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]);
 
+        User::factory()
+            ->has(Talk::factory()->count(3))
+            ->create(
+                [
+                    'name' => 'Minh Le 02',
+                    'email' => 'minh_le02@yopmail.com',
+                    'password' => Hash::make('password'),
+                ]
+            );
+
         Conference::factory()->count(5)->create();
     }
 }

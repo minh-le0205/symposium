@@ -12,6 +12,11 @@ class Talk extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class);
