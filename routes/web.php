@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
     // Conference routes
     Route::get('conferences', [ConferenceController::class, 'index'])->name('conferences.index');
+    Route::post('conferences/{conference}/favorite', [ConferenceController::class, 'favorite'])->name('conferences.favorite');
 });
 
 require __DIR__ . '/auth.php';

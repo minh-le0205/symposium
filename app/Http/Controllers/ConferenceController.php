@@ -64,4 +64,17 @@ class ConferenceController extends Controller
     {
         //
     }
+
+    public function favorite(Conference $conference)
+    {
+        $user = auth()->user();
+
+        if ($user->favoritedConferences()->where('conference_id', $conference->id)->exists()) {
+            $user->favoritedConferences()->detach($conference->id);
+        } else {
+            $user->favoritedConferences()->attach($conference->id);
+        }
+
+        return redirect()->back();
+    }
 }
